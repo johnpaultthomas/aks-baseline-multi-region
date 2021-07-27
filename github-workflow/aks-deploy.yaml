@@ -12,6 +12,7 @@
 #        -  azuredeploy.parameters.region1.json
 #        -  azuredeploy.parameters.region2.json
 #
+#
 # Take into account the DEPLOY_REGION1 and DEPLOY_REGION2 env variables. If we want to add a new region, the ideal situation is not deploy the already working clusters. Adding a value different of true will skip the specific region steps.
 # Changing the cluster stamp file is expected to be applied on all the regions
 name: Deploy AKS Secure Baseline clusters stamp and Flux in different regions
@@ -44,7 +45,7 @@ jobs:
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: |
-          ACR_NAME_BU0001A0042=$(az deployment group show -g rg-bu0001a0042-shared -n shared-svcs-stamp --query properties.outputs.containerRegistryName.value -o tsv)
+          ACR_NAME_BU0001A0042=$(az deployment group show -g rg-bu0001a0042-shared-mc -n shared-svcs-stamp --query properties.outputs.containerRegistryName.value -o tsv)
           az acr import --source docker.io/library/memcached:1.5.20 -n $ACR_NAME_BU0001A0042 --force
           az acr import --source docker.io/fluxcd/flux:1.19.0 -n $ACR_NAME_BU0001A0042 --force
           az acr import --source docker.io/weaveworks/kured:1.4.0 -n $ACR_NAME_BU0001A0042 --force
@@ -109,9 +110,9 @@ jobs:
         inlineScript: |
           az extension add --upgrade -n front-door
           APPGW_FQDN_BU0001A0042_03=$(az deployment group show -g rg-enterprise-networking-spokes -n spoke-BU0001A0042-03 --query properties.outputs.appGwFqdn.value -o tsv)
-          FRONT_DOOR_NAME=$(az deployment group show -g rg-bu0001a0042-shared -n shared-svcs-stamp --query properties.outputs.frontDoorName.value -o tsv)
-          FRONT_DOOR_BACKENDPOOL_NAME=$(az deployment group show -g rg-bu0001a0042-shared -n shared-svcs-stamp --query properties.outputs.frontDoorBackendPoolName.value -o tsv)
-          az network front-door backend-pool backend add --address $APPGW_FQDN_BU0001A0042_03 --front-door-name $FRONT_DOOR_NAME --pool-name $FRONT_DOOR_BACKENDPOOL_NAME -g rg-bu0001a0042-shared --backend-host-header $APPGW_FQDN_BU0001A0042_03 --disabled false --http-port 80 --https-port 443  --priority 1 --weight 50
+          FRONT_DOOR_NAME=$(az deployment group show -g rg-bu0001a0042-shared-mc -n shared-svcs-stamp --query properties.outputs.frontDoorName.value -o tsv)
+          FRONT_DOOR_BACKENDPOOL_NAME=$(az deployment group show -g rg-bu0001a0042-shared-mc -n shared-svcs-stamp --query properties.outputs.frontDoorBackendPoolName.value -o tsv)
+          az network front-door backend-pool backend add --address $APPGW_FQDN_BU0001A0042_03 --front-door-name $FRONT_DOOR_NAME --pool-name $FRONT_DOOR_BACKENDPOOL_NAME -g rg-bu0001a0042-shared-mc --backend-host-header $APPGW_FQDN_BU0001A0042_03 --disabled false --http-port 80 --https-port 443  --priority 1 --weight 50
 
     # -----------------------REGION2------------------------------------------------
     # Deploy the cluster into your environment, assuming all prerequisites are up and running.
@@ -169,9 +170,9 @@ jobs:
       with:
         inlineScript: |
           az extension add --upgrade -n front-door
-          APPGW_FQDN_BU0001A0042_04=$(az deployment group show -g rg-enterprise-networking-spokes -n spoke-BU0001A0042-04 --query properties.outputs.appGwFqdn.value -o tsv)
-          FRONT_DOOR_NAME=$(az deployment group show -g rg-bu0001a0042-shared -n shared-svcs-stamp --query properties.outputs.frontDoorName.value -o tsv)
-          FRONT_DOOR_BACKENDPOOL_NAME=$(az deployment group show -g rg-bu0001a0042-shared -n shared-svcs-stamp --query properties.outputs.frontDoorBackendPoolName.value -o tsv)
-          az network front-door backend-pool backend add --address $APPGW_FQDN_BU0001A0042_04 --front-door-name $FRONT_DOOR_NAME --pool-name $FRONT_DOOR_BACKENDPOOL_NAME -g rg-bu0001a0042-shared --backend-host-header $APPGW_FQDN_BU0001A0042_04 --disabled false --http-port 80 --https-port 443  --priority 1 --weight 50
+          APPGW_FQDN_BU0001A0042_04=$(az deployment group show -g rg-enterprise-networking-spokes-mc -n spoke-BU0001A0042-04 --query properties.outputs.appGwFqdn.value -o tsv)
+          FRONT_DOOR_NAME=$(az deployment group show -g rg-bu0001a0042-shared-mc -n shared-svcs-stamp --query properties.outputs.frontDoorName.value -o tsv)
+          FRONT_DOOR_BACKENDPOOL_NAME=$(az deployment group show -g rg-bu0001a0042-shared-mc -n shared-svcs-stamp --query properties.outputs.frontDoorBackendPoolName.value -o tsv)
+          az network front-door backend-pool backend add --address $APPGW_FQDN_BU0001A0042_04 --front-door-name $FRONT_DOOR_NAME --pool-name $FRONT_DOOR_BACKENDPOOL_NAME -g rg-bu0001a0042-shared-mc --backend-host-header $APPGW_FQDN_BU0001A0042_04 --disabled false --http-port 80 --https-port 443  --priority 1 --weight 50
          
         azcliversion: 2.17.1
