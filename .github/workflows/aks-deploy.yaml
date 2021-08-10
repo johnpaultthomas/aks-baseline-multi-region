@@ -52,8 +52,8 @@ jobs:
 
         azcliversion: 2.17.1
 
-    -----------------------REGION1------------------------------------------------
-    Deploy the cluster into your environment, assuming all prerequisites are up and running.
+    # -----------------------REGION1------------------------------------------------
+    # Deploy the cluster into your environment, assuming all prerequisites are up and running.
     - name: Azure CLI - Deploy AKS cluster - Region 1
       id: aks-cluster-region1
       if: success() && env.DEPLOY_REGION1 == 'true'
