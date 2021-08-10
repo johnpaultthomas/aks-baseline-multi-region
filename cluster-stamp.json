@@ -778,208 +778,207 @@
                     }
                 }
             ]
-        }
-        // ,
-        // {
-        //     "type": "Microsoft.ContainerService/managedClusters",
-        //     "apiVersion": "2021-02-01",
-        //     "name": "[variables('clusterName')]",
-        //     "location": "[parameters('location')]",
-        //     "dependsOn": [
-        //         "[resourceId(variables('vNetResourceGroup'), 'Microsoft.Resources/deployments', 'EnsureClusterIdentityHasRbacToSelfManagedResources')]",
-        //         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('clusterControlPlaneIdentityName'))]",
-        //         "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameAKSLinuxRestrictive'))]",
-        //         "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceHttpsIngress'))]",
-        //         "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceImageSource'))]",
-        //         "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceInternalLoadBalancers'))]",
-        //         "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceResourceLimits'))]",
-        //         "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameRoRootFilesystem'))]"
-        //     ],
-        //     "properties": {
-        //         "kubernetesVersion": "[parameters('kubernetesVersion')]",
-        //         "dnsPrefix": "[uniqueString(subscription().subscriptionId, resourceGroup().id, variables('clusterName'))]",
-        //         "agentPoolProfiles": [
-        //             {
-        //                 "name": "npsystem",
-        //                 "count": 3,
-        //                 "vmSize": "Standard_DS2_v2",
-        //                 "osDiskSizeGB": 80,
-        //                 "osDiskType": "Ephemeral",
-        //                 "osType": "Linux",
-        //                 "minCount": 3,
-        //                 "maxCount": 4,
-        //                 "vnetSubnetID": "[variables('vnetNodePoolSubnetResourceId')]",
-        //                 "enableAutoScaling": true,
-        //                 "type": "VirtualMachineScaleSets",
-        //                 "mode": "System",
-        //                 "scaleSetPriority": "Regular",
-        //                 "scaleSetEvictionPolicy": "Delete",
-        //                 "orchestratorVersion": "[parameters('kubernetesVersion')]",
-        //                 "enableNodePublicIP": false,
-        //                 "maxPods": 30,
-        //                 "availabilityZones": [
-        //                     "1",
-        //                     "2",
-        //                     "3"
-        //                 ],
-        //                 "upgradeSettings": {
-        //                     "maxSurge": "33%"
-        //                 }
-        //             },
-        //             {
-        //                 "name": "npuser01",
-        //                 "count": 2,
-        //                 "vmSize": "Standard_DS3_v2",
-        //                 "osDiskSizeGB": 120,
-        //                 "osDiskType": "Ephemeral",
-        //                 "osType": "Linux",
-        //                 "minCount": 2,
-        //                 "maxCount": 5,
-        //                 "vnetSubnetID": "[variables('vnetNodePoolSubnetResourceId')]",
-        //                 "enableAutoScaling": true,
-        //                 "type": "VirtualMachineScaleSets",
-        //                 "mode": "User",
-        //                 "scaleSetPriority": "Regular",
-        //                 "scaleSetEvictionPolicy": "Delete",
-        //                 "orchestratorVersion": "[parameters('kubernetesVersion')]",
-        //                 "enableNodePublicIP": false,
-        //                 "maxPods": 30,
-        //                 "availabilityZones": [
-        //                     "1",
-        //                     "2",
-        //                     "3"
-        //                 ],
-        //                 "upgradeSettings": {
-        //                     "maxSurge": "33%"
-        //                 }
-        //             }
-        //         ],
-        //         "servicePrincipalProfile": {
-        //             "clientId": "msi"
-        //         },
-        //         "addonProfiles": {
-        //             "httpApplicationRouting": {
-        //                 "enabled": false
-        //             },
-        //             "omsagent": {
-        //                 "enabled": true,
-        //                 "config": {
-        //                     "logAnalyticsWorkspaceResourceId": "[parameters('logAnalyticsWorkspaceId')]"
-        //                 }
-        //             },
-        //             "aciConnectorLinux": {
-        //                 "enabled": false
-        //             },
-        //             "azurepolicy": {
-        //                 "enabled": true,
-        //                 "config": {
-        //                     "version": "v2"
-        //                 }
-        //             }
-        //         },
-        //         "nodeResourceGroup": "[variables('nodeResourceGroupName')]",
-        //         "enableRBAC": true,
-        //         "enablePodSecurityPolicy": false,
-        //         "maxAgentPools": 2,
-        //         "networkProfile": {
-        //             "networkPlugin": "azure",
-        //             "networkPolicy": "azure",
-        //             "outboundType": "userDefinedRouting",
-        //             "loadBalancerSku": "standard",
-        //             "loadBalancerProfile": "[json('null')]",
-        //             "serviceCidr": "172.16.0.0/16",
-        //             "dnsServiceIP": "172.16.0.10",
-        //             "dockerBridgeCidr": "172.18.0.1/16"
-        //         },
-        //         "aadProfile": {
-        //             "managed": true,
-        //             "enableAzureRBAC": false,
-        //             "adminGroupObjectIDs": [
-        //                 "[parameters('clusterAdminAadGroupObjectId')]"
-        //             ],
-        //             "tenantID": "[parameters('k8sControlPlaneAuthorizationTenantId')]"
-        //         },
-        //         "autoScalerProfile": {
-        //             "balance-similar-node-groups": "false",
-        //             "expander": "random",
-        //             "max-empty-bulk-delete": "10",
-        //             "max-graceful-termination-sec": "600",
-        //             "max-node-provision-time": "15m",
-        //             "max-total-unready-percentage": "45",
-        //             "new-pod-scale-up-delay": "0s",
-        //             "ok-total-unready-count": "3",
-        //             "scale-down-delay-after-add": "10m",
-        //             "scale-down-delay-after-delete": "20s",
-        //             "scale-down-delay-after-failure": "3m",
-        //             "scale-down-unneeded-time": "10m",
-        //             "scale-down-unready-time": "20m",
-        //             "scale-down-utilization-threshold": "0.5",
-        //             "scan-interval": "10s",
-        //             "skip-nodes-with-local-storage": "true",
-        //             "skip-nodes-with-system-pods": "true"
-        //         },
-        //         "apiServerAccessProfile": {
-        //             "authorizedIPRanges": "[parameters('clusterAuthorizedIPRanges')]",
-        //             "enablePrivateCluster": false
-        //         },
-        //         "podIdentityProfile": {
-        //             "enabled": false, /* This feature is currently in preview and will eventually replace the aad-pod-identity configuration set up by hand in this reference implementation */
-        //             "userAssignedIdentities": [],
-        //             "userAssignedIdentityExceptions": []
-        //         }
-        //     },
-        //     "identity": {
-        //         "type": "UserAssigned",
-        //         "userAssignedIdentities": {
-        //             "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('clusterControlPlaneIdentityName'))]": {}
-        //         }
-        //     },
-        //     "resources": [
-        //         {
-        //             "name": "[concat('Microsoft.Authorization/', guid(resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName')), 'omsagent', variables('monitoringMetricsPublisherRole')))]",
-        //             "type": "providers/roleAssignments",
-        //             "apiVersion": "2020-04-01-preview",
-        //             "comments": "Grant the OMS Agent's Managed Identity the metrics publisher role to push alerts",
-        //             "dependsOn": [
-        //                 "[resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName'))]"
-        //             ],
-        //             "properties": {
-        //                 "roleDefinitionId": "[variables('monitoringMetricsPublisherRole')]",
-        //                 "principalId": "[reference(resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName')), '2020-12-01').addonProfiles.omsagent.identity.objectId]",
-        //                 "principalType": "ServicePrincipal"
-        //             }
-        //         },
-        //         {
-        //             "type": "/providers/diagnosticSettings",
-        //             "apiVersion": "2017-05-01-preview",
-        //             "name": "Microsoft.Insights/default",
-        //             "dependsOn": [
-        //                 "[resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName'))]"
-        //             ],
-        //             "properties": {
-        //                 "workspaceId": "[parameters('logAnalyticsWorkspaceId')]",
-        //                 "logs": [
-        //                     {
-        //                         "category": "cluster-autoscaler",
-        //                         "enabled": true
-        //                     },
-        //                     {
-        //                         "category": "kube-controller-manager",
-        //                         "enabled": true
-        //                     },
-        //                     {
-        //                         "category": "kube-audit-admin",
-        //                         "enabled": true
-        //                     },
-        //                     {
-        //                         "category": "guard",
-        //                         "enabled": true
-        //                     }
-        //                 ]
-        //             }
-        //         }
-        //     ]
-        // },
+        },
+        {
+            "type": "Microsoft.ContainerService/managedClusters",
+            "apiVersion": "2021-02-01",
+            "name": "[variables('clusterName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId(variables('vNetResourceGroup'), 'Microsoft.Resources/deployments', 'EnsureClusterIdentityHasRbacToSelfManagedResources')]",
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('clusterControlPlaneIdentityName'))]",
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameAKSLinuxRestrictive'))]",
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceHttpsIngress'))]",
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceImageSource'))]",
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceInternalLoadBalancers'))]",
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameEnforceResourceLimits'))]",
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('policyAssignmentNameRoRootFilesystem'))]"
+            ],
+            "properties": {
+                "kubernetesVersion": "[parameters('kubernetesVersion')]",
+                "dnsPrefix": "[uniqueString(subscription().subscriptionId, resourceGroup().id, variables('clusterName'))]",
+                "agentPoolProfiles": [
+                    {
+                        "name": "npsystem",
+                        "count": 3,
+                        "vmSize": "Standard_DS2_v2",
+                        "osDiskSizeGB": 80,
+                        "osDiskType": "Ephemeral",
+                        "osType": "Linux",
+                        "minCount": 3,
+                        "maxCount": 4,
+                        "vnetSubnetID": "[variables('vnetNodePoolSubnetResourceId')]",
+                        "enableAutoScaling": true,
+                        "type": "VirtualMachineScaleSets",
+                        "mode": "System",
+                        "scaleSetPriority": "Regular",
+                        "scaleSetEvictionPolicy": "Delete",
+                        "orchestratorVersion": "[parameters('kubernetesVersion')]",
+                        "enableNodePublicIP": false,
+                        "maxPods": 30,
+                        "availabilityZones": [
+                            "1",
+                            "2",
+                            "3"
+                        ],
+                        "upgradeSettings": {
+                            "maxSurge": "33%"
+                        }
+                    },
+                    {
+                        "name": "npuser01",
+                        "count": 2,
+                        "vmSize": "Standard_DS3_v2",
+                        "osDiskSizeGB": 120,
+                        "osDiskType": "Ephemeral",
+                        "osType": "Linux",
+                        "minCount": 2,
+                        "maxCount": 5,
+                        "vnetSubnetID": "[variables('vnetNodePoolSubnetResourceId')]",
+                        "enableAutoScaling": true,
+                        "type": "VirtualMachineScaleSets",
+                        "mode": "User",
+                        "scaleSetPriority": "Regular",
+                        "scaleSetEvictionPolicy": "Delete",
+                        "orchestratorVersion": "[parameters('kubernetesVersion')]",
+                        "enableNodePublicIP": false,
+                        "maxPods": 30,
+                        "availabilityZones": [
+                            "1",
+                            "2",
+                            "3"
+                        ],
+                        "upgradeSettings": {
+                            "maxSurge": "33%"
+                        }
+                    }
+                ],
+                "servicePrincipalProfile": {
+                    "clientId": "msi"
+                },
+                "addonProfiles": {
+                    "httpApplicationRouting": {
+                        "enabled": false
+                    },
+                    "omsagent": {
+                        "enabled": true,
+                        "config": {
+                            "logAnalyticsWorkspaceResourceId": "[parameters('logAnalyticsWorkspaceId')]"
+                        }
+                    },
+                    "aciConnectorLinux": {
+                        "enabled": false
+                    },
+                    "azurepolicy": {
+                        "enabled": true,
+                        "config": {
+                            "version": "v2"
+                        }
+                    }
+                },
+                "nodeResourceGroup": "[variables('nodeResourceGroupName')]",
+                "enableRBAC": true,
+                "enablePodSecurityPolicy": false,
+                "maxAgentPools": 2,
+                "networkProfile": {
+                    "networkPlugin": "azure",
+                    "networkPolicy": "azure",
+                    "outboundType": "userDefinedRouting",
+                    "loadBalancerSku": "standard",
+                    "loadBalancerProfile": "[json('null')]",
+                    "serviceCidr": "172.16.0.0/16",
+                    "dnsServiceIP": "172.16.0.10",
+                    "dockerBridgeCidr": "172.18.0.1/16"
+                },
+                "aadProfile": {
+                    "managed": true,
+                    "enableAzureRBAC": false,
+                    "adminGroupObjectIDs": [
+                        "[parameters('clusterAdminAadGroupObjectId')]"
+                    ],
+                    "tenantID": "[parameters('k8sControlPlaneAuthorizationTenantId')]"
+                },
+                "autoScalerProfile": {
+                    "balance-similar-node-groups": "false",
+                    "expander": "random",
+                    "max-empty-bulk-delete": "10",
+                    "max-graceful-termination-sec": "600",
+                    "max-node-provision-time": "15m",
+                    "max-total-unready-percentage": "45",
+                    "new-pod-scale-up-delay": "0s",
+                    "ok-total-unready-count": "3",
+                    "scale-down-delay-after-add": "10m",
+                    "scale-down-delay-after-delete": "20s",
+                    "scale-down-delay-after-failure": "3m",
+                    "scale-down-unneeded-time": "10m",
+                    "scale-down-unready-time": "20m",
+                    "scale-down-utilization-threshold": "0.5",
+                    "scan-interval": "10s",
+                    "skip-nodes-with-local-storage": "true",
+                    "skip-nodes-with-system-pods": "true"
+                },
+                "apiServerAccessProfile": {
+                    "authorizedIPRanges": "[parameters('clusterAuthorizedIPRanges')]",
+                    "enablePrivateCluster": false
+                },
+                "podIdentityProfile": {
+                    "enabled": false, /* This feature is currently in preview and will eventually replace the aad-pod-identity configuration set up by hand in this reference implementation */
+                    "userAssignedIdentities": [],
+                    "userAssignedIdentityExceptions": []
+                }
+            }
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('clusterControlPlaneIdentityName'))]": {}
+                }
+            },
+            "resources": [
+                {
+                    "name": "[concat('Microsoft.Authorization/', guid(resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName')), 'omsagent', variables('monitoringMetricsPublisherRole')))]",
+                    "type": "providers/roleAssignments",
+                    "apiVersion": "2020-04-01-preview",
+                    "comments": "Grant the OMS Agent's Managed Identity the metrics publisher role to push alerts",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName'))]"
+                    ],
+                    "properties": {
+                        "roleDefinitionId": "[variables('monitoringMetricsPublisherRole')]",
+                        "principalId": "[reference(resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName')), '2020-12-01').addonProfiles.omsagent.identity.objectId]",
+                        "principalType": "ServicePrincipal"
+                    }
+                },
+                {
+                    "type": "/providers/diagnosticSettings",
+                    "apiVersion": "2017-05-01-preview",
+                    "name": "Microsoft.Insights/default",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.ContainerService/managedClusters', variables('clusterName'))]"
+                    ],
+                    "properties": {
+                        "workspaceId": "[parameters('logAnalyticsWorkspaceId')]",
+                        "logs": [
+                            {
+                                "category": "cluster-autoscaler",
+                                "enabled": true
+                            },
+                            {
+                                "category": "kube-controller-manager",
+                                "enabled": true
+                            },
+                            {
+                                "category": "kube-audit-admin",
+                                "enabled": true
+                            },
+                            {
+                                "category": "guard",
+                                "enabled": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         // {
         //     "type": "Microsoft.Insights/metricAlerts",
         //     "location": "global",
