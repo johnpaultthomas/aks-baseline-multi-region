@@ -88,12 +88,12 @@ Following the steps below will result in the provisioning of the AKS multi clust
 
         ```bash
         # Region 1
-        sed -i "s#<cluster-spoke-vnet-resource-id>#${RESOURCEID_VNET_BU0001A0042_03}#g" ./azuredeploy.parameters.eastus2.json && \
-        sed -i "s#<tenant-id-with-user-admin-permissions>#${TENANTID_K8SRBAC}#g" ./azuredeploy.parameters.eastus2.json && \
-        sed -i "s#<azure-ad-aks-admin-group-object-id>#${AADOBJECTID_GROUP_CLUSTERADMIN_BU0001A004203}#g" ./azuredeploy.parameters.eastus2.json && \
-        sed -i "s#<log-analytics-workspace-id>#${LOGANALYTICSWORKSPACEID}#g" ./azuredeploy.parameters.eastus2.json && \
-        sed -i "s#<container-registry-id>#${CONTAINERREGISTRYID}#g" ./azuredeploy.parameters.eastus2.json && \
-        sed -i "s#<acrPrivateDns-zones-id>#${ACRPRIVATEDNSZONESID}#g" ./azuredeploy.parameters.eastus2.json
+        sed -i "s#<cluster-spoke-vnet-resource-id>#${RESOURCEID_VNET_BU0001A0042_03}#g" ./azuredeploy.parameters.eastus.json && \
+        sed -i "s#<tenant-id-with-user-admin-permissions>#${TENANTID_K8SRBAC}#g" ./azuredeploy.parameters.eastus.json && \
+        sed -i "s#<azure-ad-aks-admin-group-object-id>#${AADOBJECTID_GROUP_CLUSTERADMIN_BU0001A004203}#g" ./azuredeploy.parameters.eastus.json && \
+        sed -i "s#<log-analytics-workspace-id>#${LOGANALYTICSWORKSPACEID}#g" ./azuredeploy.parameters.eastus.json && \
+        sed -i "s#<container-registry-id>#${CONTAINERREGISTRYID}#g" ./azuredeploy.parameters.eastus.json && \
+        sed -i "s#<acrPrivateDns-zones-id>#${ACRPRIVATEDNSZONESID}#g" ./azuredeploy.parameters.eastus.json
 
         # Region 2
         sed -i "s#<cluster-spoke-vnet-resource-id>#${RESOURCEID_VNET_BU0001A0042_04}#g" ./azuredeploy.parameters.centralus.json && \

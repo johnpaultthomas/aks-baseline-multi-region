@@ -42,7 +42,7 @@ The following two resource groups will be created and populated with networking 
 
    > :book: The networking team had created two generic hubs awaiting for customers to join. They receive a request from an app team in business unit (BU) 0001. This is for the creation of network spokes to house their new AKS-based application (Internally know as Application ID: A0042). The network team talks with the app team to understand their requirements and aligns those needs with Microsoft's best practices for a secure AKS cluster deployment. As part of the non-functional requirements, the app team mentions they need to run two separate infrastructure instances of the same application from two different regions, so they can increase the availability. The networking team realizes they are going to need two different spokes to fulfil the app team's requirements. They capture those specific requirements and deploy the spokes (`BU0001A0042-03` and `BU0001A0042-04`), aligning to those specs, and connecting it to the corresponding regional hub.
    >
-   > The networking team has decided that `10.200.[0-9].0` will be where all regional hubs are homed on their organization's network space. The `eastus2` and `westus2` hubs (created below) will be `10.200.3.0/24` and `10.200.4.0/24` respectively.
+   > The networking team has decided that `10.200.[0-9].0` will be where all regional hubs are homed on their organization's network space. The `eastus` and `westus2` hubs (created below) will be `10.200.3.0/24` and `10.200.4.0/24` respectively.
    >
    > Note: The subnets for Azure Bastion and on-prem connectivity are deployed in this reference architecture, but the resources are not deployed. Since this reference implementation is expected to be deployed isolated from existing infrastructure; these IP addresses should not conflict with any existing networking you have, even if those IP addresses overlap. If you need to connect the reference implementation to existing networks, you will need to adjust the IP space as per your requirements as to not conflict in the reference ARM templates.
 
@@ -52,20 +52,20 @@ The following two resource groups will be created and populated with networking 
    # [Create the generic hubs takes about five minutes to run.]
    BASE_FIREWALL_POLICIES_ID=$(az deployment group show -g rg-bu0001a0042-shared -n shared-svcs-stamp --query properties.outputs.baseFirewallPoliciesId.value -o tsv)
 
-   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.json -n hub-regionA -p baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus2 @networking/hub-region.parameters.eastus2.json
-   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.json -n hub-regionB -p baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus2 @networking/hub-region.parameters.centralus.json
+   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.json -n hub-regionA -p baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus @networking/hub-region.parameters.eastus.json
+   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.json -n hub-regionB -p baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus @networking/hub-region.parameters.centralus.json
 
    # [Create the spokes takes about ten minutes to run.]
    RESOURCEID_VNET_HUB_REGIONA=$(az deployment group show -g rg-enterprise-networking-hubs -n hub-regionA --query properties.outputs.hubVnetId.value -o tsv)
    RESOURCEID_VNET_HUB_REGIONB=$(az deployment group show -g rg-enterprise-networking-hubs -n hub-regionB --query properties.outputs.hubVnetId.value -o tsv)
-   az deployment group create -g rg-enterprise-networking-spokes -f networking/spoke-BU0001A0042.json -n spoke-BU0001A0042-03 -p hubVnetResourceId="${RESOURCEID_VNET_HUB_REGIONA}" @networking/spoke-BU0001A0042.parameters.eastus2.json
+   az deployment group create -g rg-enterprise-networking-spokes -f networking/spoke-BU0001A0042.json -n spoke-BU0001A0042-03 -p hubVnetResourceId="${RESOURCEID_VNET_HUB_REGIONA}" @networking/spoke-BU0001A0042.parameters.eastus.json
    az deployment group create -g rg-enterprise-networking-spokes -f networking/spoke-BU0001A0042.json -n spoke-BU0001A0042-04 -p hubVnetResourceId="${RESOURCEID_VNET_HUB_REGIONB}" @networking/spoke-BU0001A0042.parameters.centralus.json
 
     # [Enrolling the spokes into the hubs takes about seven minutes to run.]
    RESOURCEID_SUBNET_NODEPOOLS_BU0001A0042_03=$(az deployment group show -g  rg-enterprise-networking-spokes -n spoke-BU0001A0042-03 --query properties.outputs.nodepoolSubnetResourceIds.value -o tsv)
    RESOURCEID_SUBNET_NODEPOOLS_BU0001A0042_04=$(az deployment group show -g  rg-enterprise-networking-spokes -n spoke-BU0001A0042-04 --query properties.outputs.nodepoolSubnetResourceIds.value -o tsv)
-   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.1.json -n hub-regionA -p nodepoolSubnetResourceIds="['${RESOURCEID_SUBNET_NODEPOOLS_BU0001A0042_03}']" baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus2  @networking/hub-region.parameters.eastus2.json
-   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.1.json -n hub-regionB -p nodepoolSubnetResourceIds="['${RESOURCEID_SUBNET_NODEPOOLS_BU0001A0042_04}']" baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus2 @networking/hub-region.parameters.centralus.json
+   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.1.json -n hub-regionA -p nodepoolSubnetResourceIds="['${RESOURCEID_SUBNET_NODEPOOLS_BU0001A0042_03}']" baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus  @networking/hub-region.parameters.eastus.json
+   az deployment group create -g rg-enterprise-networking-hubs -f networking/hub-region.v1.1.json -n hub-regionB -p nodepoolSubnetResourceIds="['${RESOURCEID_SUBNET_NODEPOOLS_BU0001A0042_04}']" baseFirewallPoliciesId=$BASE_FIREWALL_POLICIES_ID firewallPolicyLocation=eastus @networking/hub-region.parameters.centralus.json
     ```
 ## Preparing for a Failover
 

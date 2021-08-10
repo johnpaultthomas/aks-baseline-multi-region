@@ -9,14 +9,14 @@
             }
         },
         "location": {
-            "defaultValue": "eastus2",
+            "defaultValue": "eastus",
             "type": "string",
             "allowedValues": [
                 "australiaeast",
                 "canadacentral",
                 "centralus",
                 "eastus",
-                "eastus2",
+                "eastus",
                 "westus2",
                 "francecentral",
                 "germanywestcentral",
@@ -468,7 +468,7 @@
                                         "fqdnTags": [],
                                         "webCategories": [],
                                         "targetFqdns": [
-                                            "*.hcp.eastus2.azmk8s.io"
+                                            "*.hcp.eastus.azmk8s.io"
                                         ],
                                         "targetUrls": [],
                                         "terminateTLS": false,
@@ -627,7 +627,7 @@
                                         "targetFqdns": [
                                             "*.ods.opinsights.azure.com",
                                             "*.oms.opinsights.azure.com",
-                                            "eastus2.monitoring.azure.com"
+                                            "eastus.monitoring.azure.com"
                                         ],
                                         "targetUrls": [],
                                         "terminateTLS": false,

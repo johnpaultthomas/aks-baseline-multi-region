@@ -3,14 +3,14 @@
     "contentVersion": "0.0.0.5",
     "parameters": {
         "location": {
-            "defaultValue": "eastus2",
+            "defaultValue": "eastus",
             "type": "string",
             "allowedValues": [
                 "australiaeast",
                 "canadacentral",
                 "centralus",
                 "eastus",
-                "eastus2",
+                "eastus",
                 "westus2",
                 "francecentral",
                 "germanywestcentral",
@@ -34,7 +34,7 @@
             "allowedValues": [
                 "australiasoutheast",
                 "canadaeast",
-                "eastus2",
+                "eastus",
                 "westus",
                 "centralus",
                 "westcentralus",
